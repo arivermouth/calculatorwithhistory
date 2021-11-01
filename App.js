@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Button, TextInput, Text } from 'react-native';
+import { StyleSheet, View, Button, TextInput, Text, FlatList } from 'react-native';
 
 export default function App() {
   const [number1, onChangeNumber1] = React.useState(null);
   const [number2, onChangeNumber2] = React.useState(null);
   const [number3, onChangeNumber3] = React.useState(null);
+  const [text, setText] = useState('');
+  const [data, setData] = useState([]);
   
   const sum = () => {
     var n1 = parseInt(number1);
     var n2 = parseInt(number2);
     var s = n1+n2;
     onChangeNumber3(s)
+    setText(n1 + ' + ' + n2 + ' = ' + (n1+n2))
+    setData([...data, {key:text }]);
   }
+  
   const subtraction = () => {
     var n1 = parseInt(number1);
     var n2 = parseInt(number2);
     var s = n1-n2;
     onChangeNumber3(s)
+    setText(n1 + ' - ' + n2 + ' = ' + (n1-n2))
+    setData([...data, {key:text }]);
   }
 
   return (
@@ -48,7 +55,16 @@ export default function App() {
           title="-"
         />
       </View>
-      
+      <Text>
+        History
+      </Text>
+      <FlatList
+        data={data}
+        renderItem={({item}) =>
+          <Text>
+            {item.key}
+          </Text>}
+      />
     </View>
   );
 }
@@ -58,7 +74,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 20
   },
   input: {
     width: 200,
@@ -74,4 +91,6 @@ const styles = StyleSheet.create({
   }
   
 });
+
+
 
